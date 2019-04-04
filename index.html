@@ -11,7 +11,43 @@
 </head>
 <body>
   <h1>user's Bookmarks</h1>
-      
+  <form>
+    <div class="controls">
+      <button id="add-button">Add</button>
+      <select name="filter-dropdown" id="rating-filter-drop">
+        <option value="" disabled selected hidden>Filter by Min Rating</option>
+        <option value="5">5 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="2">2 Stars</option>
+        <option value="1">1 Star</option>
+      </select>
+    </div>
+
+    <div class="add-bookmark-form">
+      <form action="">
+        <div class="add-bookmark">
+          <input type="text" name="addB-title-input" id="addB-title-input" placeholder="Title" required>
+          <input type="url" name="addB-url-input" id="addB-url-input" placeholder="URL" required>
+          <input type="number" name="addB-rating-spinner" id="addB-rating-spinner" min="1" max="5" step="1" value="5" size="6">
+          <textarea name="addB-desc-textarea" id="addB-desc-textarea" cols="30" rows="10">Description...</textarea>
+          <div class="addB-form-controls">
+            <button class="addB-cancel-button">Cancel</button>
+            <button type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </form>
+
+  <main>
+    <ul class="bookmarks-list">
+      <li>Bookmark Title1<p>Rating...</p></li>
+      <li>Bookmark Title1<p>Rating...</p></li>
+      <li>Bookmark Title1<p>Rating...</p></li>
+    </ul>
+  </main>
+    
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cuid/1.3.8/browser-cuid.min.js"></script>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </body>
