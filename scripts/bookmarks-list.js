@@ -145,6 +145,17 @@ const bookmarksList = (function() {
     });
   }
 
+  function handleBookmarkRemove() {
+    $('.js-bookmarks-list').on('click', '.js-remove', event => {
+      event.preventDefault();
+      const id = getItemIdfromElement(event.currentTarget);
+
+      store.findAndDelete(id);
+
+      render();
+    });
+  }
+
   function bindEventListeners() {
     handleAddFilterFormShow();
     handleAddFilterFormHide();
@@ -152,6 +163,7 @@ const bookmarksList = (function() {
     handleFilterByMinRating();
     handleBookmarkItemExpandToggle();
     handleBookmarkVisit();
+    handleBookmarkRemove();
   }
 
   return {
