@@ -24,6 +24,11 @@ const store = (function() {
     bookmark.expanded = isExpanded;
   }
 
+  function setBookmarkIsEditing(id, isEditing) {
+    const bookmark = this.findById(id);
+    bookmark.isEditing = isEditing;
+  }
+
   function setUserName(name) {
     this.userName = name;
   }
@@ -49,8 +54,9 @@ const store = (function() {
     findAndDelete,
     findAndUpdate,
     setBookmarkExpanded,
-    setMinRating,
+    setBookmarkIsEditing,
+    setUserName,
     setAdding,
-    setUserName
+    setMinRating,
   };
 }());

@@ -21,7 +21,7 @@ const bookmarksList = (function() {
         </form>`;
     } else {
       return `
-        <form class="add-bookmark-controls add-bookmark-form js-add-bookmark-form" >
+      <form class="add-bookmark-controls add-bookmark-form js-add-bookmark-form" >
         <h3 class="add-bookmark-heading">Add Bookmark</h3>
         <label for="add-bookmark-title-input">Title:</label>
         <input type="text" name="Title" id="add-bookmark-title-input" placeholder="Title" required>
@@ -29,8 +29,8 @@ const bookmarksList = (function() {
         <input type="url" name="URL" id="add-bookmark-url-input" placeholder="URL" required>
         <label for="add-bookmark-desc-textarea">Description:</label>
         <textarea name="add-bookmark-desc-textarea" id="add-bookmark-desc-textarea" placeholder="Description..."></textarea>
-        <label for="add-bookmark-rating-spinner">Rating:</label>
-        <select name="rating-select" class="dropdown rating-select-dropdown" aria-label="Select Rating">
+        <label for="add-bookmark-rating-dropdown">Rating:</label>
+        <select name="rating-select" class="dropdown rating-select-dropdown" id="add-bookmark-rating-dropdown" aria-label="Select Rating">
             <option value="" disabled selected hidden>Select Rating</option>
             <option value="5">5 Stars</option>
             <option value="4">4 Stars</option>
@@ -39,8 +39,8 @@ const bookmarksList = (function() {
             <option value="1">1 Star</option>
         </select>
         <button type="reset" class="button add-bookmark-cancel-button js-add-form-cancel">Cancel</button>
-        <button type="submit" class="button add-bookmark-submit-button">Submit</button>
-        </form>`;
+        <button type="submit" class="button add-bookmark-submit-button js-bookmark-submit">Submit</button>
+      </form>`;
     }
   }
 
@@ -51,14 +51,14 @@ const bookmarksList = (function() {
             <span class="bookmark-item expanded">
               <div class="expanded-header bookmark-item-header">
                 <h4 class="bookmark-item-title">${bookmark.title}</h4>
-                <span class="bookmark-item-rating">${bookmark.rating}</span>
+                <span class="bookmark-item-rating">Rating: ${bookmark.rating}</span>
               </div>
               <form class="expanded-info">
                 <textarea name="expanded-description" id="expanded-description" cols="30" rows="3">${bookmark.description}</textarea>
                 <div class="expanded-controls">
                   <button class="button expanded-control-edit">Edit</button>
-                  <button class="button expanded-control-visit">Visit</button>
                   <button class="button expanded-control-remove">Remove</button>
+                  <button class="button expanded-control-visit">Visit</button>                  
                 </div>
               </form>
             </span>
@@ -68,7 +68,7 @@ const bookmarksList = (function() {
         <li class="js-bookmark-item element" item-id="${bookmark.id}">
           <div class="bookmark-item bookmark-item-header">
             <h4 class="bookmark-item-title">${bookmark.title}</h4>
-            <span class="bookmark-item-rating">${bookmark.rating}</span>
+            <span class="bookmark-item-rating">Rating: ${bookmark.rating}</span>
           </div>
         </li>`;
     }
@@ -82,18 +82,19 @@ const bookmarksList = (function() {
   function render() {
     let bookmarks = [...store.bookmarks];
 
-    console.log('`render` ran');
     const controlsString = generateControlString();
     const bookmarksListString = generateBookmarksListString(bookmarks);
 
     $('.js-controls-container').html(controlsString);
     $('.js-bookmarks-list').html(bookmarksListString);
+
+    console.log('`render` ran');
   }
 
   function handleAddFilterFormShow() {
     $('.js-controls-container').on('click', '.js-add-form-show', event => {
       event.preventDefault();
-      store.adding = true;
+      store.setAdding(true);
       render();
     });
   }
@@ -101,7 +102,36 @@ const bookmarksList = (function() {
   function handleAddFilterFormHide() {
     $('.js-controls-container').on('click', '.js-add-form-cancel', event => {
       event.preventDefault();
-      store.adding = false;
+      store.setAdding(false);
+      render();
+    });
+  }
+
+  function handleNewBookmarkSubmit() {
+    $('.js-controls-container').on('submit', '.js-add-bookmark-form', event =>{
+      event.preventDefault();
+      const bmTitle = $('#add-bookmark-title-input').val();
+      const bmUrl = $('#add-bookmark-url-input').val();
+      const bmDesc = $('#add-bookmark-desc-textarea').val();
+      let bmRating = $('#add-bookmark-rating-dropdown').val();
+
+      // Check bmRating and set to 5(default) if null
+      if(!bmRating) bmRating = 5;
+
+      // temp bookmark creation...replace with api call here
+      const bm = {
+        id: cuid(),
+        title: bmTitle,
+        url: bmUrl,
+        description: bmDesc,
+        rating: bmRating,
+      };
+
+      console.log(bm);
+      // reset store.adding
+      store.setAdding(false);
+
+      store.addBookmark(bm);
       render();
     });
   }
@@ -109,6 +139,7 @@ const bookmarksList = (function() {
   function bindEventListeners() {
     handleAddFilterFormShow();
     handleAddFilterFormHide();
+    handleNewBookmarkSubmit();
   }
 
   return {
