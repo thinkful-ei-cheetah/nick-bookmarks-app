@@ -12,10 +12,6 @@ body {
   margin: 0 auto;
 }
 
-.add-bookmark-controls {
-  margin-left: 10px;
-}
-
 .button {
   width: 125px;
   padding: 10px 32px;
@@ -46,7 +42,7 @@ body {
 }
 
 .add-bookmark-cancel-button {
-  margin-left: 25px;
+  margin-left: 40px;
 }
 
 .add-bookmark-cancel-button, .expanded-control-remove {
