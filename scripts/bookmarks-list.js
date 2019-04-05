@@ -15,11 +15,11 @@ const bookmarksList = (function() {
                 <span class="bookmark-item-rating">Rating: ${bookmark.rating}</span>
               </div>
               <form class="expanded-info">
-                <textarea name="expanded-description" id="expanded-description" cols="30" rows="3">${bookmark.description}</textarea>
+                <textarea name="Description" id="expanded-description" cols="30" rows="3" readonly>${bookmark.description}</textarea>
                 <div class="expanded-controls">
-                  <button class="button expanded-control-edit js-edit">Edit</button>
-                  <button class="button expanded-control-remove js-remove">Remove</button>
-                  <button class="button expanded-control-visit js-visit">Visit</button>                  
+                  <button class="button btn-edit js-edit">Edit</button>
+                  <button class="button btn-remove js-remove">Remove</button>
+                  <button class="button btn-visit js-visit">Visit</button>                  
                 </div>
               </form>
             </span>
@@ -62,7 +62,7 @@ const bookmarksList = (function() {
     console.log('`render` ran');
   }
 
-  function handleAddFilterFormShow() {
+  function handleAddFormShow() {
     $('.js-controls-container').on('click', '.js-add-form-show', event => {
       event.preventDefault();
       store.setAdding(true);
@@ -70,7 +70,7 @@ const bookmarksList = (function() {
     });
   }
 
-  function handleAddFilterFormHide() {
+  function handleAddFormHide() {
     $('.js-controls-container').on('click', '.js-add-form-cancel', event => {
       event.preventDefault();
       store.setAdding(false);
@@ -157,8 +157,8 @@ const bookmarksList = (function() {
   }
 
   function bindEventListeners() {
-    handleAddFilterFormShow();
-    handleAddFilterFormHide();
+    handleAddFormShow();
+    handleAddFormHide();
     handleNewBookmarkSubmit();
     handleFilterByMinRating();
     handleBookmarkItemExpandToggle();
