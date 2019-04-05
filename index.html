@@ -13,10 +13,10 @@
   <div class="container">
     <h1>user's<br>Bookmarks</h1>
 
-    <form class="add-bookmark-controls js-controls-form">
-      <button type="submit" class="button add-bookmark-submit-button">Add</button>
-      <select name="rating-filter" id="rating-filter-dropdown" aria-label="Filter by Minimum Rating">
-        <option value="" disabled selected hidden>Filter by Min Rating</option>
+    <form class="add-bookmark-controls add-filter-form js-controls-form" >
+      <button type="submit" class="button add-filter-submit-button">Add</button>
+      <select name="rating-filter-select" class="dropdown rating-filter-dropdown" aria-label="Filter by Minimum Rating">
+        <option value="" disabled selected hidden>Filter by Minimum Rating</option>
         <option value="5">5 Stars</option>
         <option value="4">4 Stars</option>
         <option value="3">3 Stars</option>
@@ -25,20 +25,52 @@
       </select>
     </form>
 
-    <form class="add-bookmark-controls js-add-bookmark-form">
-      <input type="text" name="Title" id="addB-title-input" placeholder="Title" required>
-      <input type="url" name="URL" id="addB-url-input" placeholder="URL" required>
-      <input type="number" name="Rating" id="addB-rating-spinner" min="1" max="5" step="1" value="5" size="6">
-      <textarea name="addB-desc-textarea" id="addB-desc-textarea" cols="30" rows="10">Description...</textarea>
-      <button class="button addB-cancel-button">Cancel</button>
-      <button type="submit" class="button addB-submit-button">Submit</button>
+    <form class="add-bookmark-controls add-bookmark-form js-add-bookmark-form" >
+      <h3 class="add-bookmark-heading">Add Bookmark</h3>
+      <label for="add-bookmark-title-input">Title:</label>
+      <input type="text" name="Title" id="add-bookmark-title-input" placeholder="Title" required>
+      <label for="add-bookmark-url-input">URL:</label>
+      <input type="url" name="URL" id="add-bookmark-url-input" placeholder="URL" required>
+      <label for="add-bookmark-desc-textarea">Description:</label>
+      <textarea name="add-bookmark-desc-textarea" id="add-bookmark-desc-textarea" placeholder="Description..."></textarea>
+      <label for="add-bookmark-rating-spinner">Rating:</label>
+      <select name="rating-select" class="dropdown rating-select-dropdown" aria-label="Select Rating">
+          <option value="" disabled selected hidden>Select Rating</option>
+          <option value="5">5 Stars</option>
+          <option value="4">4 Stars</option>
+          <option value="3">3 Stars</option>
+          <option value="2">2 Stars</option>
+          <option value="1">1 Star</option>
+      </select>
+      <button type="reset" class="button add-bookmark-cancel-button">Cancel</button>
+      <button type="submit" class="button add-bookmark-submit-button">Submit</button>
     </form>
   
     <main>
-      <ul class="bookmark-list js-bookmarks-list">
-        <li>Bookmark Title1<p>Rating...</p></li>
-        <li>Bookmark Title1<p>Rating...</p></li>
-        <li>Bookmark Title1<p>Rating...</p></li>
+      <ul class="bookmarks-list js-bookmarks-list">
+        <li class="js-bookmark-item element" item-id="">
+          <div class="bookmark-item bookmark-item-header">
+            <h4 class="bookmark-item-title">Bookmark Title 1</h4>
+            <span class="bookmark-item-rating">RATING...</span>
+          </div>
+        </li>
+
+        <li class="js-bookmark-item element" item-id="">
+          <span class="bookmark-item expanded">
+            <div class="expanded-header bookmark-item-header">
+              <h4 class="bookmark-item-title">Bookmark Title 2</h4>
+              <span class="bookmark-item-rating">RATING...</span>
+            </div>
+            <form class="expanded-info">
+              <textarea name="expanded-description" id="expanded-description" cols="30" rows="3">DESCRIPTION</textarea>
+              <div class="expanded-controls">
+                <button class="button expanded-control-edit">Edit</button>
+                <button class="button expanded-control-visit">Visit</button>
+                <button class="button expanded-control-remove">Remove</button>
+              </div>
+            </form>
+          </span>
+        </li>
       </ul>
     </main>
   </div>
