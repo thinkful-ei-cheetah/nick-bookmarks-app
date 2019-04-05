@@ -5,44 +5,44 @@
 
 const bookmarksList = (function() {
 
-  function generateControlString() {
-    if(!store.adding){
-      return `
-        <form class="add-bookmark-controls add-filter-form js-controls-form" >
-        <button class="button add-filter-submit-button js-add-form-show">Add</button>
-        <select name="rating-filter-select" class="dropdown rating-filter-dropdown" aria-label="Filter by Minimum Rating">
-          <option value="" disabled selected hidden>Filter by Minimum Rating</option>
-          <option value="5">5 Stars</option>
-          <option value="4">4 Stars</option>
-          <option value="3">3 Stars</option>
-          <option value="2">2 Stars</option>
-          <option value="1">1 Star</option>
-        </select>
-        </form>`;
-    } else {
-      return `
-      <form class="add-bookmark-controls add-bookmark-form js-add-bookmark-form" >
-        <h3 class="add-bookmark-heading">Add Bookmark</h3>
-        <label for="add-bookmark-title-input">Title:</label>
-        <input type="text" name="Title" id="add-bookmark-title-input" placeholder="Title" required>
-        <label for="add-bookmark-url-input">URL:</label>
-        <input type="url" name="URL" id="add-bookmark-url-input" placeholder="URL" required>
-        <label for="add-bookmark-desc-textarea">Description:</label>
-        <textarea name="add-bookmark-desc-textarea" id="add-bookmark-desc-textarea" placeholder="Description..."></textarea>
-        <label for="add-bookmark-rating-dropdown">Rating:</label>
-        <select name="rating-select" class="dropdown rating-select-dropdown" id="add-bookmark-rating-dropdown" aria-label="Select Rating">
-            <option value="" disabled selected hidden>Select Rating</option>
-            <option value="5">5 Stars</option>
-            <option value="4">4 Stars</option>
-            <option value="3">3 Stars</option>
-            <option value="2">2 Stars</option>
-            <option value="1">1 Star</option>
-        </select>
-        <button type="reset" class="button add-bookmark-cancel-button js-add-form-cancel">Cancel</button>
-        <button type="submit" class="button add-bookmark-submit-button js-bookmark-submit">Submit</button>
-      </form>`;
-    }
-  }
+  // function generateControlString() {
+  //   if(!store.adding){
+  //     return `
+  //     <form class="add-bookmark-controls add-filter-form js-controls-form" >
+  //       <button class="button add-filter-submit-button js-add-form-show">Add</button>
+  //       <select name="rating-filter-select" class="dropdown rating-filter-dropdown js-rating-filter" aria-label="Filter by Minimum Rating">
+  //         <option value="" disabled selected hidden>Filter by Minimum Rating</option>
+  //         <option value="5">5 Stars</option>
+  //         <option value="4">4 Stars</option>
+  //         <option value="3">3 Stars</option>
+  //         <option value="2">2 Stars</option>
+  //         <option value="1">1 Star</option>
+  //       </select>
+  //     </form>`;
+  //   } else {
+  //     return `
+  //     <form class="add-bookmark-controls add-bookmark-form js-add-bookmark-form" >
+  //       <h3 class="add-bookmark-heading">Add Bookmark</h3>
+  //       <label for="add-bookmark-title-input">Title:</label>
+  //       <input type="text" name="Title" id="add-bookmark-title-input" placeholder="Title" required>
+  //       <label for="add-bookmark-url-input">URL:</label>
+  //       <input type="url" name="URL" id="add-bookmark-url-input" placeholder="URL" required>
+  //       <label for="add-bookmark-desc-textarea">Description:</label>
+  //       <textarea name="add-bookmark-desc-textarea" id="add-bookmark-desc-textarea" placeholder="Description..."></textarea>
+  //       <label for="add-bookmark-rating-dropdown">Rating:</label>
+  //       <select name="rating-select" class="dropdown rating-select-dropdown" id="add-bookmark-rating-dropdown" aria-label="Select Rating">
+  //           <option value="" disabled selected hidden>Select Rating</option>
+  //           <option value="5">5 Stars</option>
+  //           <option value="4">4 Stars</option>
+  //           <option value="3">3 Stars</option>
+  //           <option value="2">2 Stars</option>
+  //           <option value="1">1 Star</option>
+  //       </select>
+  //       <button type="reset" class="button add-bookmark-cancel-button js-add-form-cancel">Cancel</button>
+  //       <button type="submit" class="button add-bookmark-submit-button js-bookmark-submit">Submit</button>
+  //     </form>`;
+  //   }
+  // }
 
   function generateBookmarkElement(bookmark) {
     if(bookmark.expanded) {
@@ -82,10 +82,20 @@ const bookmarksList = (function() {
   function render() {
     let bookmarks = [...store.bookmarks];
 
-    const controlsString = generateControlString();
+    // Filter on minRating
+    bookmarks = bookmarks.filter(bookmark => bookmark.rating <= store.minRating);
+
     const bookmarksListString = generateBookmarksListString(bookmarks);
 
-    $('.js-controls-container').html(controlsString);
+    // $('.js-controls-container').html(controlsString);
+    if(store.adding) {
+      $('.js-controls-form').addClass('hidden');
+      $('.js-add-bookmark-form').removeClass('hidden');
+    } else {
+      $('.js-controls-form').removeClass('hidden');
+      $('.js-add-bookmark-form').addClass('hidden');
+    }
+
     $('.js-bookmarks-list').html(bookmarksListString);
 
     console.log('`render` ran');
@@ -127,11 +137,17 @@ const bookmarksList = (function() {
         rating: bmRating,
       };
 
-      console.log(bm);
-      // reset store.adding
       store.setAdding(false);
 
       store.addBookmark(bm);
+      render();
+    });
+  }
+
+  function handleFilterByMinRating() {
+    $('.js-controls-container').on('change', '.js-rating-filter', event => {
+      const filterRating = Number($('.js-rating-filter').val());
+      store.setMinRating(filterRating);
       render();
     });
   }
@@ -140,6 +156,7 @@ const bookmarksList = (function() {
     handleAddFilterFormShow();
     handleAddFilterFormHide();
     handleNewBookmarkSubmit();
+    handleFilterByMinRating();
   }
 
   return {

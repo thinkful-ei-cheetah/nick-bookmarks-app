@@ -10,8 +10,8 @@ $(document).ready(function() {
   bookmarksList.render();
 
   store.addBookmark({id: cuid(), title:'Google', url:'www.google.com', description:'World\'s best search engine', rating: 5, expanded:true, isEditing:false});
-  store.addBookmark({id: cuid(), title:'Amazon', url:'www.google.com', description:'World\'s best search engine', rating: 5, expanded:true, isEditing:false});
-  store.addBookmark({id: cuid(), title:'nix.codes', url:'www.google.com', description:'World\'s best search engine', rating: 5, expanded:true, isEditing:false});
+  store.addBookmark({id: cuid(), title:'Amazon', url:'www.amazon.com', description:'World\'s biggest online store', rating: 5, expanded:false, isEditing:false});
+  store.addBookmark({id: cuid(), title:'Reddit', url:'www.reddit.com', description:'Front page of the internet', rating: 5, expanded:false, isEditing:false});
 
   console.log(store);
   bookmarksList.render();

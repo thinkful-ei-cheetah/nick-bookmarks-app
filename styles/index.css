@@ -12,6 +12,10 @@ body {
   margin: 0 auto;
 }
 
+.hidden {
+  display: none;
+}
+
 .button {
   width: 125px;
   padding: 10px 32px;
