@@ -9,7 +9,7 @@ const bookmarksList = (function() {
     if(!store.adding){
       return `
         <form class="add-bookmark-controls add-filter-form js-controls-form" >
-        <button type="submit" class="button add-filter-submit-button">Add</button>
+        <button class="button add-filter-submit-button js-add-form-show">Add</button>
         <select name="rating-filter-select" class="dropdown rating-filter-dropdown" aria-label="Filter by Minimum Rating">
           <option value="" disabled selected hidden>Filter by Minimum Rating</option>
           <option value="5">5 Stars</option>
@@ -38,7 +38,7 @@ const bookmarksList = (function() {
             <option value="2">2 Stars</option>
             <option value="1">1 Star</option>
         </select>
-        <button type="reset" class="button add-bookmark-cancel-button">Cancel</button>
+        <button type="reset" class="button add-bookmark-cancel-button js-add-form-cancel">Cancel</button>
         <button type="submit" class="button add-bookmark-submit-button">Submit</button>
         </form>`;
     }
@@ -76,7 +76,6 @@ const bookmarksList = (function() {
 
   function generateBookmarksListString(bookmarksArray) {
     const bookmarksStringArray = bookmarksArray.map( bookmark => generateBookmarkElement(bookmark) );
-    console.log(bookmarksStringArray);
     return bookmarksStringArray.join('');
   }
 
@@ -87,13 +86,33 @@ const bookmarksList = (function() {
     const controlsString = generateControlString();
     const bookmarksListString = generateBookmarksListString(bookmarks);
 
-    console.log(controlsString);
-
     $('.js-controls-container').html(controlsString);
     $('.js-bookmarks-list').html(bookmarksListString);
   }
 
+  function handleAddFilterFormShow() {
+    $('.js-controls-container').on('click', '.js-add-form-show', event => {
+      event.preventDefault();
+      store.adding = true;
+      render();
+    });
+  }
+
+  function handleAddFilterFormHide() {
+    $('.js-controls-container').on('click', '.js-add-form-cancel', event => {
+      event.preventDefault();
+      store.adding = false;
+      render();
+    });
+  }
+
+  function bindEventListeners() {
+    handleAddFilterFormShow();
+    handleAddFilterFormHide();
+  }
+
   return {
+    bindEventListeners,
     render
   };
 }());
