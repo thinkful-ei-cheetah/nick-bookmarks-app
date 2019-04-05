@@ -5,11 +5,11 @@
 const api = (function() {
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/nick';
 
-  function createBookmark(title, url, description, rating) {
+  function createBookmark(title, url, desc, rating) {
     let newBookmark = {
       title,
       url,
-      description,
+      desc,
       rating,
     };
 
@@ -25,6 +25,7 @@ const api = (function() {
   }
 
   function readBookmarks() {
+    console.log(BASE_URL + '/bookmarks');
     return bookmarksApiFetch(BASE_URL + '/bookmarks');
   }
 
@@ -54,6 +55,8 @@ const api = (function() {
         if(!response.ok) {
           error = { code: response.status };
         }
+
+        return response.json();
       })
       .then(data => {
         if(error) {

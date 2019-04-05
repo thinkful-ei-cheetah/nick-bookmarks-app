@@ -1,6 +1,6 @@
 'use strict';
 
-/* global store */
+/* global store, api */
 // bookmarkItem = { id:cuid(), title, url, description, rating, expanded:false, isEditing:false }
 
 const bookmarksList = (function() {
@@ -15,7 +15,7 @@ const bookmarksList = (function() {
                 <span class="bookmark-item-rating">Rating: ${bookmark.rating}</span>
               </div>
               <form class="expanded-info">
-                <textarea name="Description" id="expanded-description" cols="30" rows="3" readonly>${bookmark.description}</textarea>
+                <textarea name="Description" id="expanded-description" cols="30" rows="3" readonly>${bookmark.desc}</textarea>
                 <div class="expanded-controls">
                   <button class="button btn-edit js-edit">Edit</button>
                   <button class="button btn-remove js-remove">Remove</button>
@@ -40,6 +40,10 @@ const bookmarksList = (function() {
     return bookmarksStringArray.join('');
   }
 
+  function generateEditElement(bookmark) {
+    //todo
+  }
+
   function render() {
     let bookmarks = [...store.bookmarks];
 
@@ -48,7 +52,6 @@ const bookmarksList = (function() {
 
     const bookmarksListString = generateBookmarksListString(bookmarks);
 
-    // $('.js-controls-container').html(controlsString);
     if(store.adding) {
       $('.js-controls-form').addClass('hidden');
       $('.js-add-bookmark-form').removeClass('hidden');
@@ -85,23 +88,22 @@ const bookmarksList = (function() {
       const bmUrl = $('#add-bookmark-url-input').val();
       const bmDesc = $('#add-bookmark-desc-textarea').val();
       let bmRating = $('#add-bookmark-rating-dropdown').val();
-
       // Check bmRating and set to 5(default) if null
       if(!bmRating) bmRating = 5;
 
-      // temp bookmark creation...replace with api call here
-      const bm = {
-        id: cuid(),
-        title: bmTitle,
-        url: bmUrl,
-        description: bmDesc,
-        rating: bmRating,
-      };
-
-      store.setAdding(false);
-
-      store.addBookmark(bm);
-      render();
+      // reset the form
+      $('.js-add-bookmark-form')[0].reset();
+      
+      api.createBookmark(bmTitle, bmUrl, bmDesc, bmRating)
+        .then((newBookmark) => {
+          console.log(newBookmark);
+          store.addBookmark(newBookmark);
+          store.setAdding(false);
+          render();
+        })
+        .catch((err) => {
+          alert('error ' + err.message);
+        });
     });
   }
 
@@ -113,8 +115,8 @@ const bookmarksList = (function() {
     });
   }
 
-  function getItemIdfromElement(item) {
-    return $(item)
+  function getItemIdfromElement(bookmark) {
+    return $(bookmark)
       .closest('.js-bookmark-item')
       .data('item-id');
   }
@@ -122,12 +124,12 @@ const bookmarksList = (function() {
   function handleBookmarkItemExpandToggle() {
     $('.js-bookmarks-list').on('click', '.bookmark-item-header', event =>{
       const id = getItemIdfromElement(event.currentTarget);
-      const item = store.findById(id);
+      const bookmark = store.findById(id);
 
-      if(item.expanded) {
-        item.expanded = !item.expanded;
+      if(bookmark.expanded) {
+        bookmark.expanded = !bookmark.expanded;
       } else {
-        item.expanded = true;
+        bookmark.expanded = true;
       }
 
       render();
@@ -150,8 +152,30 @@ const bookmarksList = (function() {
       event.preventDefault();
       const id = getItemIdfromElement(event.currentTarget);
 
-      store.findAndDelete(id);
+      api.deleteBookmark(id)
+        .then(() => {
+          store.findAndDelete(id);
+          render();
+        });
+    });
+  }
 
+  function disableRemoveBtnToggle(bookmark) {
+    $(bookmark)
+      .siblings('.js-remove')
+      .attr('disabled', true)
+      .css('color', 'white');
+  }
+
+  function handleBookmarkEdit() {
+    $('.js-bookmarks-list').on('click', '.js-edit', event => {
+      event.preventDefault();
+      store.setAdding(true);
+      const id = getItemIdfromElement(event.currentTarget);
+      const bookmark = store.findById(id);
+
+      console.log($(event.currentTarget).siblings('.js-remove').css('opacit', 0.3));
+      disableRemoveBtnToggle(event.currentTarget);
       render();
     });
   }
@@ -164,6 +188,7 @@ const bookmarksList = (function() {
     handleBookmarkItemExpandToggle();
     handleBookmarkVisit();
     handleBookmarkRemove();
+    handleBookmarkEdit();
   }
 
   return {
