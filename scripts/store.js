@@ -26,15 +26,19 @@ const store = (function() {
 
   function setBookmarkIsEditing(id, isEditing) {
     const bookmark = this.findById(id);
+    // console.log(bookmark);
+    // console.log(isEditing);
+
     bookmark.isEditing = isEditing;
+    // console.log(bookmark.isEditing);
   }
 
   function setUserName(name) {
     this.userName = name;
   }
 
-  function setAdding(adding) {
-    this.adding = adding;
+  function setAdding(isAdding) {
+    this.isAdding = isAdding;
   }
 
   function setMinRating(minRating) {
@@ -45,8 +49,8 @@ const store = (function() {
     // PROPERTIES
     bookmarks: [], // bookmarkItem = { id:cuid(), title, url, description, rating, expanded:false, isEditing:false }
     userName: 'Nick',
-    adding: false,
-    minRating: 5, // Default value is 5 (display all)
+    isAdding: false,
+    minRating: null,
     
     // METHODS
     addBookmark,

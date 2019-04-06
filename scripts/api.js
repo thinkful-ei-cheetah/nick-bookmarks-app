@@ -25,7 +25,6 @@ const api = (function() {
   }
 
   function readBookmarks() {
-    console.log(BASE_URL + '/bookmarks');
     return bookmarksApiFetch(BASE_URL + '/bookmarks');
   }
 
