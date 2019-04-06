@@ -23,3 +23,25 @@
     </form>
   </span>
 </li>
+
+<!--bookmark.isEditing===true list element-->
+<li class="js-bookmark-item" data-item-id=""${bookmark.id}>
+  <form class="js-edit-form">
+    <div class="bookmark-item-header">
+      <h4 class="bookmark-item-title">${bookmark.title}</h4>
+      <select name="Rating" class="dropdown edit-rating-dropdown js-edit-rating" aria-label="Select Rating">
+        <option value="" disabled hidden>Select Rating</option>
+        <option value="5">5 Stars</option>
+        <option value="4">4 Stars</option>
+        <option value="3">3 Stars</option>
+        <option value="2">2 Stars</option>
+        <option value="1">1 Star</option>
+      </select>
+    </div>
+    <textarea name="Description" class="js-expanded-desc" cols="30" rows="3">${bookmark.desc}</textarea>
+    <div class="expanded-controls">
+      <button type="reset" class="button btn-remove js-edit-cancel">Cancel</button>
+      <button type="submit" class="buton btn-edit js-edit submit">Submit</button>
+    </div>
+  </form>
+</li>
