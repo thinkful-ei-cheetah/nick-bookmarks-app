@@ -86,7 +86,7 @@ const htmlGenerators = ( function() {
 
     let bookmarkHeaderInner = `
       <h4 class="bookmark-item-title">${bookmark.title}</h4>
-      <span class="bookmark-item-rating">Rating: ${bookmark.rating}</span>`;
+      <span class="bookmark-item-rating">Rating: ${bookmark.rating} ${bookmark.rating === 1 ? 'Star&nbsp&nbsp;' : 'Stars'}</span>`;
     
     if(bookmark.isEditing) {
       headerTitle = `<form class="js-edit-form">

@@ -26,7 +26,6 @@ const store = (function() {
 
   function setBookmarkIsEditing(id, isEditing) {
     const bookmark = this.findById(id);
-
     bookmark.isEditing = isEditing;
   }
 

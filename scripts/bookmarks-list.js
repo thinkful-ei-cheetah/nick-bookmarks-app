@@ -81,9 +81,9 @@ const bookmarksList = ( function() {
       const bookmark = store.findById(id);
 
       if(bookmark.expanded && !bookmark.isEditing) {
-        bookmark.setBookmarkExpanded(!bookmark.expanded);
+        store.setBookmarkExpanded(id, !bookmark.expanded);
       } else {
-        bookmark.setBookmarkExpanded(true);
+        store.setBookmarkExpanded(id, true);
       }
 
       render();

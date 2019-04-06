@@ -6,4 +6,5 @@
 * Tabbing and selecting elements via Enter key resets focus to beginning of parent element
 
 ### Future Features
+* Add star icons in place of text in 'Rating'
 * Ability to enter user name to update bookmarks list and application title
