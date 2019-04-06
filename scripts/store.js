@@ -26,15 +26,8 @@ const store = (function() {
 
   function setBookmarkIsEditing(id, isEditing) {
     const bookmark = this.findById(id);
-    // console.log(bookmark);
-    // console.log(isEditing);
 
     bookmark.isEditing = isEditing;
-    // console.log(bookmark.isEditing);
-  }
-
-  function setUserName(name) {
-    this.userName = name;
   }
 
   function setAdding(isAdding) {
@@ -48,7 +41,6 @@ const store = (function() {
   return {
     // PROPERTIES
     bookmarks: [], // bookmarkItem = { id:cuid(), title, url, description, rating, expanded:false, isEditing:false }
-    userName: 'Nick',
     isAdding: false,
     minRating: null,
     
@@ -59,7 +51,6 @@ const store = (function() {
     findAndUpdate,
     setBookmarkExpanded,
     setBookmarkIsEditing,
-    setUserName,
     setAdding,
     setMinRating,
   };
