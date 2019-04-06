@@ -4,7 +4,6 @@
 
 $(document).ready(function() {
   bookmarksList.bindEventListeners();
-  // bookmarksList.render();
 
   api.readBookmarks()
     .then((bookmarks) => {
