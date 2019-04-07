@@ -4,6 +4,7 @@
 
 ### Known Issues
 * Tabbing and selecting elements via Enter key resets focus to beginning of parent element
+* Entering an incorret URL does not notify of correct prompt to use. This is mainly due to relying on built-in html input types for form validation.
 
 ### Future Features
 * Add star icons in place of text in 'Rating'
